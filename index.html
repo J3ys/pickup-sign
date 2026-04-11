@@ -116,7 +116,6 @@
       letter-spacing: 4px;
       word-break: break-word;
       line-height: 1.15;
-      animation: nameGlow 2s ease-in-out infinite alternate;
     }
 
     .sign-footer {
@@ -157,29 +156,13 @@
       border-color: #e94560;
     }
 
-    /* ── Sign animations ── */
-    .anim-zoom-in {
-      animation: signAppear 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    /* ── Continuous sign animations ── */
+    .anim-name-pulse .sign-name {
+      animation: namePulse 1.5s ease-in-out infinite;
     }
 
-    .anim-slide-left {
-      animation: slideFromLeft 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .anim-slide-up {
-      animation: slideFromBottom 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .anim-flip {
-      animation: flipIn 0.8s ease;
-    }
-
-    .anim-bounce {
-      animation: bounceIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .anim-fade {
-      animation: fadeOnly 0.8s ease;
+    .anim-frame-pulse {
+      animation: framePulse 1.5s ease-in-out infinite;
     }
 
     /* Decorative corner dots */
@@ -263,41 +246,14 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes signAppear {
-      from { opacity: 0; transform: scale(0.8) translateY(40px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
+    @keyframes namePulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(1.05); opacity: 0.85; }
     }
 
-    @keyframes slideFromLeft {
-      from { opacity: 0; transform: translateX(-100%); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-
-    @keyframes slideFromBottom {
-      from { opacity: 0; transform: translateY(100%); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes flipIn {
-      from { opacity: 0; transform: perspective(600px) rotateY(90deg); }
-      to   { opacity: 1; transform: perspective(600px) rotateY(0deg); }
-    }
-
-    @keyframes bounceIn {
-      0%   { opacity: 0; transform: scale(0.3); }
-      60%  { opacity: 1; transform: scale(1.1); }
-      80%  { transform: scale(0.95); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes fadeOnly {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    @keyframes nameGlow {
-      from { text-shadow: 0 0 0 transparent; }
-      to   { text-shadow: 0 0 18px rgba(233, 69, 96, 0.3); }
+    @keyframes framePulse {
+      0%, 100% { box-shadow: 0 0 0 4px #fff, 0 0 0 8px #222, 0 20px 60px rgba(0, 0, 0, 0.5); border-color: #222; }
+      50%      { box-shadow: 0 0 0 4px #fff, 0 0 18px 8px rgba(233, 69, 96, 0.45), 0 20px 60px rgba(0, 0, 0, 0.5); border-color: #e94560; }
     }
 
     /* ── Landscape encouragement ── */
@@ -426,12 +382,9 @@
     <div class="animation-select-wrapper">
       <label for="animation-select">Animation:</label>
       <select id="animation-select">
-        <option value="anim-zoom-in">Zoom In</option>
-        <option value="anim-slide-left">Slide Left</option>
-        <option value="anim-slide-up">Slide Up</option>
-        <option value="anim-flip">Flip</option>
-        <option value="anim-bounce">Bounce</option>
-        <option value="anim-fade">Fade</option>
+        <option value="anim-name-pulse">Name Pulse</option>
+        <option value="anim-frame-pulse">Frame Pulse</option>
+        <option value="anim-none">None</option>
       </select>
     </div>
     <button id="show-btn">Show Sign</button>
@@ -484,7 +437,7 @@
     const animationSelect = document.getElementById('animation-select');
     const signContainer  = document.querySelector('.sign-container');
 
-    const ANIM_CLASSES = ['anim-zoom-in', 'anim-slide-left', 'anim-slide-up', 'anim-flip', 'anim-bounce', 'anim-fade'];
+    const ANIM_CLASSES = ['anim-name-pulse', 'anim-frame-pulse', 'anim-none'];
 
     /* ── Helpers ── */
     function showToast(msg) {
