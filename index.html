@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Airport Pickup Sign</title>
+  <title>Online FREE pickup/arrival signs. Sharable</title>
+  <meta name="description" content="Create a free online airport pickup or arrival sign instantly. Enter a passenger name, choose an animation, and share the link. Perfect for airport arrivals, hotel pickups, and event greetings.">
+  <meta name="keywords" content="airport pickup sign, arrival sign, free pickup sign, online arrival sign, airport greeting sign, passenger name sign, sharable pickup sign">
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -376,7 +378,13 @@
 
   <!-- Input Screen -->
   <div id="input-screen">
-    <h1>✈️ Airport Pickup Sign</h1>
+    <h1>✈️ Free Online Pickup &amp; Arrival Sign</h1>
+    <p style="color:#aaa; max-width:480px; text-align:center; font-size:0.95rem; line-height:1.5;">
+      Create a <strong style="color:#e0e0e0;">free airport pickup sign</strong> in seconds.
+      Enter the passenger name, pick an animation, and hold up your phone at the arrival gate — or
+      <strong style="color:#e0e0e0;">share the link</strong> so anyone can open it on their device.
+      Great for <em>airport arrivals</em>, <em>hotel pickups</em>, <em>event greetings</em>, and more.
+    </p>
     <label for="name-input" class="sr-only">Passenger name</label>
     <input id="name-input" type="text" placeholder="Enter passenger name" maxlength="40" autocomplete="off">
     <div class="animation-select-wrapper">
@@ -477,7 +485,7 @@
       const newURL = buildShareURL(safe);
       window.history.replaceState(null, '', newURL);
 
-      document.title = safe + ' — Airport Pickup Sign';
+      document.title = safe + ' — Free Pickup/Arrival Sign';
     }
 
     /* ── Show sign ── */
@@ -504,7 +512,7 @@
 
       // Clear URL param
       window.history.replaceState(null, '', window.location.pathname);
-      document.title = 'Airport Pickup Sign';
+      document.title = 'Online FREE pickup/arrival signs. Sharable';
     });
 
     /* ── Share ── */
@@ -513,7 +521,7 @@
 
       if (navigator.share) {
         try {
-          await navigator.share({ title: 'Airport Pickup Sign', url });
+          await navigator.share({ title: 'Free Pickup/Arrival Sign', url });
         } catch {
           /* user cancelled — ignore */
         }
