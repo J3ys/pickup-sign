@@ -237,6 +237,19 @@
       letter-spacing: 1px;
     }
 
+    /* ── Screen-reader only ── */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     /* Fullscreen-friendly */
     @media (orientation: landscape) {
       .sign-container {
@@ -250,6 +263,7 @@
   <!-- Input Screen -->
   <div id="input-screen">
     <h1>✈️ Airport Pickup Sign</h1>
+    <label for="name-input" class="sr-only">Passenger name</label>
     <input id="name-input" type="text" placeholder="Enter passenger name" maxlength="40" autocomplete="off">
     <button id="show-btn">Show Sign</button>
   </div>
@@ -302,16 +316,25 @@
       return url.toString();
     }
 
+    function sanitizeName(raw) {
+      // Strip HTML tags and limit length
+      const div = document.createElement('div');
+      div.textContent = raw;
+      return div.textContent.trim().substring(0, 40);
+    }
+
     function displaySign(name) {
-      signName.textContent = name;
+      const safe = sanitizeName(name);
+      if (!safe) return;
+      signName.textContent = safe;
       inputScreen.style.display = 'none';
       signScreen.style.display  = 'flex';
 
       // Update URL without reload
-      const newURL = buildShareURL(name);
+      const newURL = buildShareURL(safe);
       window.history.replaceState(null, '', newURL);
 
-      document.title = name + ' — Airport Pickup Sign';
+      document.title = safe + ' — Airport Pickup Sign';
     }
 
     /* ── Show sign ── */
@@ -355,7 +378,7 @@
         await navigator.clipboard.writeText(url);
         showToast('Link copied to clipboard!');
       } else {
-        // Fallback
+        // Legacy fallback for older browsers without Clipboard API
         const ta = document.createElement('textarea');
         ta.value = url;
         document.body.appendChild(ta);
