@@ -84,6 +84,7 @@
       justify-content: center;
       width: 100vw;
       height: 100vh;
+      height: 100svh; /* use small viewport height on iOS to avoid browser chrome overlap */
       padding: 20px;
     }
 
@@ -467,10 +468,24 @@
       return div.textContent.trim().substring(0, 40);
     }
 
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;');
+    }
+
     function displaySign(name) {
       const safe = sanitizeName(name);
       if (!safe) return;
-      signName.textContent = safe;
+      const nameParts = safe.split(/\s+/).filter(Boolean);
+      if (nameParts.length >= 2) {
+        signName.innerHTML = nameParts.map(escapeHtml).join('<br>');
+      } else {
+        signName.textContent = safe;
+      }
       inputScreen.style.display = 'none';
       signScreen.style.display  = 'flex';
 
